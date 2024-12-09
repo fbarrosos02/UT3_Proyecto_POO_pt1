@@ -1,0 +1,23 @@
+9.
+¿Qué significa hacer una clase abstracta?
+
+-Al hacer una clase abstracta, esta no se puede instanciar directamente. De este modo las únicas en poderse instanciar son las clases que heredan de ella (CintaVideo, DVD y  Juego).
+
+¿Qué conseguimos al hacerla abstracta?
+
+-Obligar a las clases hijas a definir algunos métodos
+-Código mas limpio, eficiente y escalable en un futuro 
+
+-Modificaciones del código:
+class Soporte{}
+pasa a ser: 
+abstract class Soporte{}
+
+10.
+No es necesario que las clases hijas implementen de nuevo la interfaz, ya que la heredan de la clase padre. Aun así se puede sobrescribir el método muestraResumen() como en este caso, ya que cada clase heredada tiene características únicas para el método.
+
+Implementación:
+abstract class Soporte{}
+pasa a ser: 
+abstract class Soporte implements Resumible {}
+Y en todos los métodos muestraResumen() de las clases hijas, hay que eliminar la línea: parent::muestraResumen(); ya que al tener implementada la interfaz no es necesario.
