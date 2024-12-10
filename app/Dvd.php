@@ -19,6 +19,7 @@ public function __construct(string $titulo, int $numero, float $precio, string $
 public function muestraResumen(): void
 {
     echo "Película en DVD:<br>";
+    echo "{$this->titulo}<br>";
     echo "Idiomas: {$this->idiomas}<br>";
     echo "Formato de pantalla: {$this->formatPantalla}<br>";
 }

@@ -34,6 +34,7 @@ class Juego extends Soporte
     public function muestraResumen(): void
     {
         echo "Juego para: {$this->consola}<br>";
+        echo "{$this->titulo}<br>";
         echo "Consola: {$this->consola}<br>";
         $this->muestraJugadoresPosibles();
     }

@@ -4,7 +4,7 @@ namespace Dwes\ProyectoVideoclub;
 // Soporte.php
 
 // Incluir la interfaz Resumible
-require_once 'Resumible.php';  // Asegúrate de que la ruta sea correcta
+require_once 'Resumible.php';  
 
 // Declaración de la clase abstracta Soporte que implementa Resumible
 abstract class Soporte implements Resumible
@@ -14,6 +14,7 @@ abstract class Soporte implements Resumible
     protected int $numero;
     private float $precio;
     private static int $iva = 21;
+    public bool $alquilado = false;
 
     // Constructor para inicializar los valores de una instancia de Soporte.
     public function __construct(string $titulo, int $numero, float $precio){

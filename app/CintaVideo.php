@@ -16,6 +16,7 @@ Class CintaVideo extends Soporte {
     // Metodo que sobrescribe el método muestraResumen de la clase Soporte.
     public function muestraResumen(): void {
         echo "Película en VHS:<br>";
+        echo "{$this->titulo}<br>";
         echo "Duración: {$this->duracion} minutos<br>";
     }
 }

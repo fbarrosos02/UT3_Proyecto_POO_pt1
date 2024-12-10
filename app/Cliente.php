@@ -1,7 +1,12 @@
 <?php
 namespace Dwes\ProyectoVideoclub;
 
-class CLiente
+use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
+use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
+use Dwes\ProyectoVideoclub\Util\SoporteNoEncontradoException;
+use Dwes\ProyectoVideoclub\Util\ClienteNoEncontradoException;
+
+class Cliente
 {
     // Propiedades públicas y privadas de la clase Cliente
     public string $nombre;
@@ -55,23 +60,22 @@ class CLiente
     }
 
     // Método para alquilar un soporte
-    public function alquilar(Soporte $s): bool
+    public function alquilar(Soporte $s): self
     {
         if ($this->tieneAlquilado($s)) {
-            echo "<br>El cliente ya tiene alquilado el soporte {$s->titulo}.<br>";
-            return false;
+            throw new SoporteYaAlquiladoException("El cliente ya tiene alquilado el soporte {$s->titulo}.");
         }
 
         if (count($this->soportesAlquilados) >= $this->maxAlquilerConcurrente) {
-            echo "<br>Este cliente tiene {$this->numSoportesAlquilados} elementos alquilados. No puede alquilar más en este videoclub hasta que no devuelva algo.<br>";
-            return false;
+            throw new CupoSuperadoException("Este cliente no puede alquilar más de {$this->maxAlquilerConcurrente} soportes.");
         }
 
         $this->soportesAlquilados[] = $s;
         $this->numSoportesAlquilados++;
+        $s->alquilado = true;
         echo "<br>Alquilado soporte a: {$this->nombre}<br>";
         $s->muestraResumen();
-        return true;
+        return $this;
     }
 
     // Método para listar todos los alquileres del cliente
@@ -90,21 +94,20 @@ class CLiente
     }
 
     // Método para devolver un soporte alquilado
-    public function devolver(int $numSoporte): bool
+    public function devolver(int $numSoporte): self
     {
         foreach ($this->soportesAlquilados as $key => $soporte) {
             if ($soporte->getNumero() === $numSoporte) {
                 unset($this->soportesAlquilados[$key]);
-                $this->soportesAlquilados = array_values(
-                    $this->soportesAlquilados
-                );
+                $this->soportesAlquilados = array_values($this->soportesAlquilados);
+
                 $this->numSoportesAlquilados--;
+                $soporte->alquilado = false;
                 echo "<br>Soporte devuelto correctamente: {$soporte->titulo}.<br>";
                 $soporte->muestraResumen();
-                return true;
+                return $this;
             }
         }
-        echo "<br>No se encontró el soporte en los alquileres del cliente.<br>";
-        return false;
+        throw new SoporteNoEncontradoException("El soporte no está alquilado.");
     }
 }
